@@ -112,12 +112,10 @@ def registration(request):
         elif password1 != password2:
             messages.error(request, 'Passwords do not match')
             return redirect('registration')
-        elif User.objects.filter(username=username).exists():
-            messages.error(request, 'Username already exists')
-            return redirect('registration')
         elif User.objects.filter(email=email).exists():
             messages.error(request, 'Email already exists')
             return redirect('registration')
+            
         else:
             # Convert the date_of_birth string to a datetime object
             # dob = datetime.strptime(date_of_birth, '%Y-%m-%d')
@@ -130,6 +128,13 @@ def registration(request):
             # Check if the age is less than 20 years
             if age < 20:
                 messages.error(request, 'Age must be above 20 years.')
+                return redirect('registration')
+            
+            if User.objects.filter(username=username).exists():
+                messages.error(request, 'Username already exists')
+                return redirect('registration')
+            elif User.objects.filter(email=email).exists():
+                messages.error(request, 'Email already exists')
                 return redirect('registration')
             else:
                 user = User.objects.create_user(username=username, email=email, password=password1)
