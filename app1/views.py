@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 import re
+import datetime
 
 def login_view(request):
     if request.method == 'POST':
@@ -33,8 +34,58 @@ def home(request):
     return render(request, 'Home.html', context)
 
 
+# def registration(request):
+#     if request.method == 'POST':
+#         first_name = request.POST['first_name']
+#         last_name = request.POST['last_name']
+#         email = request.POST['email']
+#         username = request.POST['username']
+#         password1 = request.POST['password1']
+#         password2 = request.POST['password2']
+#         phone = request.POST['phone']
+#         address = request.POST['address']
+#         role = request.POST['role']
+#         date_of_birth = request.POST['date_of_birth']
+        
+#         if not re.match("^[a-zA-Z]*$", first_name):
+#             messages.error(request, 'First name should only contain letters')
+#             return render(request, 'Registration.html', {})
+#         elif not re.match("^[a-zA-Z]*$", last_name):
+#             messages.error(request, 'Last name should only contain letters')
+#             return render(request, 'Registration.html', {})
+#         elif not re.match("^[a-zA-Z]*$", username):
+#             messages.error(request, 'Username should only contain letters')
+#             return render(request, 'Registration.html', {})
+#         elif not re.match(r'^\+[0-9]{1,3}\s?[0-9]{9,15}$', phone):
+#             messages.error(request, 'Phone number should be in the format +1234567890')
+#             return render(request, 'Registration.html', {})
+#         elif password1 == password2:
+#             if User.objects.filter(username=username).exists():
+#                 messages.error(request, 'Username already exists')
+#                 return render(request, 'Registration.html', {})
+#             elif User.objects.filter(email=email).exists():
+#                 messages.error(request, 'Email already exists')
+#                 return render(request, 'Registration.html', {})
+#             else:
+#                 user = User.objects.create_user(username=username, email=email, password=password1)
+#                 user.first_name = first_name
+#                 user.last_name = last_name
+#                 user.save()
+                
+#                 # Create your CustomUser object here
+#                 newuser = CustomUser.objects.create(user=user,email=email, first_name=first_name, date_of_birth=date_of_birth, role=role, address=address, phone=phone, username=username, last_name=last_name)
+                
+#                 if newuser:
+#                     messages.success(request, 'User successfully created. Please login using username and password.')
+#                     return redirect('login')
+#         else:
+#             messages.error(request, 'Passwords do not match')
+    
+#     return render(request, 'Registration.html', {})
+
 def registration(request):
     if request.method == 'POST':
+        # Retrieve form data
         first_name = request.POST['first_name']
         last_name = request.POST['last_name']
         email = request.POST['email']
@@ -58,7 +109,22 @@ def registration(request):
         elif not re.match(r'^\+[0-9]{1,3}\s?[0-9]{9,15}$', phone):
             messages.error(request, 'Phone number should be in the format +1234567890')
             return render(request, 'Registration.html', {})
-        elif password1 == password2:
+        elif password1 != password2:
+            messages.error(request, 'Passwords do not match')
+            return render(request, 'Registration.html', {})
+        else:
+            # Convert the date_of_birth string to a datetime object
+            dob = datetime.strptime(date_of_birth, '%Y-%m-%d')
+            
+            # Calculate the age based on the current date
+            today = datetime.today()
+            age = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
+            
+            # Check if the age is less than 20 years
+            if age < 20:
+                messages.error(request, 'Age must be above 20 years.')
+                return render(request, 'Registration.html', {})
+            
             if User.objects.filter(username=username).exists():
                 messages.error(request, 'Username already exists')
                 return render(request, 'Registration.html', {})
@@ -72,17 +138,13 @@ def registration(request):
                 user.save()
                 
                 # Create your CustomUser object here
-                newuser = CustomUser.objects.create(user=user,email=email, first_name=first_name, date_of_birth=date_of_birth, role=role, address=address, phone=phone, username=username, last_name=last_name)
+                newuser = CustomUser.objects.create(user=user, email=email, first_name=first_name, date_of_birth=date_of_birth, role=role, address=address, phone=phone, username=username, last_name=last_name)
                 
                 if newuser:
                     messages.success(request, 'User successfully created. Please login using username and password.')
                     return redirect('login')
-        else:
-            messages.error(request, 'Passwords do not match')
-    
+        
     return render(request, 'Registration.html', {})
-
-
 
 
 @login_required
