@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 import re
 import datetime
-
+from datetime import datetime
 def login_view(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -114,8 +114,9 @@ def registration(request):
             return render(request, 'Registration.html', {})
         else:
             # Convert the date_of_birth string to a datetime object
-            dob = datetime.strptime(date_of_birth, '%Y-%m-%d')
-            
+            # dob = datetime.strptime(date_of_birth, '%Y-%m-%d')
+            date_string = request.POST.get('date_of_birth')
+            dob = datetime.strptime(date_string, '%Y-%m-%d')
             # Calculate the age based on the current date
             today = datetime.today()
             age = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
