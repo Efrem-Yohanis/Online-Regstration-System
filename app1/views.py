@@ -99,19 +99,19 @@ def registration(request):
         
         if not re.match("^[a-zA-Z]*$", first_name):
             messages.error(request, 'First name should only contain letters')
-            return render(request, 'Registration.html', {})
+            return redirect('registration')
         elif not re.match("^[a-zA-Z]*$", last_name):
             messages.error(request, 'Last name should only contain letters')
-            return render(request, 'Registration.html', {})
+            return redirect('registration')
         elif not re.match("^[a-zA-Z]*$", username):
             messages.error(request, 'Username should only contain letters')
-            return render(request, 'Registration.html', {})
+            return redirect('registration')
         elif not re.match(r'^\+[0-9]{1,3}\s?[0-9]{9,15}$', phone):
             messages.error(request, 'Phone number should be in the format +1234567890')
-            return render(request, 'Registration.html', {})
+            return redirect('registration')
         elif password1 != password2:
             messages.error(request, 'Passwords do not match')
-            return render(request, 'Registration.html', {})
+            return redirect('registration')
         else:
             # Convert the date_of_birth string to a datetime object
             # dob = datetime.strptime(date_of_birth, '%Y-%m-%d')
@@ -124,14 +124,14 @@ def registration(request):
             # Check if the age is less than 20 years
             if age < 20:
                 messages.error(request, 'Age must be above 20 years.')
-                return render(request, 'Registration.html', {})
+                return redirect('registration')
             
             if User.objects.filter(username=username).exists():
                 messages.error(request, 'Username already exists')
-                return render(request, 'Registration.html', {})
+                return redirect('registration')
             elif User.objects.filter(email=email).exists():
                 messages.error(request, 'Email already exists')
-                return render(request, 'Registration.html', {})
+                return redirect('registration')
             else:
                 user = User.objects.create_user(username=username, email=email, password=password1)
                 user.first_name = first_name

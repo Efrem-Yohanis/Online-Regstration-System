@@ -13,14 +13,8 @@ from rest_framework.permissions import IsAuthenticated
 
    
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
 def getalluser(request):
-    users = request.user
-    print(users)
-    # if not request.user.is_authenticated:
-    #     return Response({"code": 403, "message": "Forbidden"}, status=status.HTTP_403_FORBIDDEN)
-
-    # users = CustomUser.objects.all()
+    users = CustomUser.objects.all()
     serializer = CustomUserSerializer(users, many=True)
     res_data = {
         "code": 1000,
