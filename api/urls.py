@@ -1,9 +1,11 @@
 from django.urls import path
-from .views import CustomAuthToken
 from . import views
 
 urlpatterns = [
     path('getalluser/', views.getalluser),
-    path('api-token-auth/', CustomAuthToken.as_view()),
-   
+    path('registration/', views.registration),
+    path('update/<int:user_id>', views.update),
+    path('getuser/<int:user_id>', views.getuser),
+    path('delete/<int:user_id>', views.delete),
+    
 ]
