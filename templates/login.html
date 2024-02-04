@@ -34,12 +34,12 @@
     <form  action="" method="POST">
       {% csrf_token %}
       <label for="username">Username:</label>
-      <input type="text" id="newusername" name="username" required>
+      <input type="text" id="username" name="username" required>
       
       <label for="password">Password:</label>
-      <input type="password" id="newpassword" name="password" required>
+      <input type="password" id="password" name="password" required>
       
-      <button type="submit" id="newbutton">Log In</button>
+      <button type="submit" id="button">Log In</button>
 
     </form>
     <p>Don't have account? <a href="{% url 'registration' %}" class="account">Create account</a></p>
