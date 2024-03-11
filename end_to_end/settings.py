@@ -73,6 +73,7 @@ WSGI_APPLICATION = 'end_to_end.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
+
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
@@ -88,10 +89,10 @@ WSGI_APPLICATION = 'end_to_end.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'ohrmsdb',
+        'NAME': 'end_to_end_db',
         'USER': 'ohrmsdb_user',
-        'PASSWORD': 'rYCzLOMytQXtRhQ0rAneqbXUa3XptJR4',
-        'HOST': 'dpg-cljnhe98mmjc73da4kj0-a.oregon-postgres.render.com',
+        'PASSWORD': 'ZYaRnm6P0TcliugWglmy32DzGUemZmhj',
+        'HOST': 'dpg-cnnd44fjbltc738dquvg-a/end_to_end_db',
         'PORT': '',
     }
 }
