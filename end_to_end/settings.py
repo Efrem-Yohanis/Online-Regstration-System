@@ -86,17 +86,22 @@ WSGI_APPLICATION = 'end_to_end.wsgi.application'
 # }
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'end_to_end_db',
-        'USER': 'ohrmsdb_user',
-        'PASSWORD': 'ZYaRnm6P0TcliugWglmy32DzGUemZmhj',
-        'HOST': 'dpg-cnnd44fjbltc738dquvg-a/end_to_end_db',
-        'PORT': '',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'end_to_end_db',
+#         'USER': 'mydb',
+#         'PASSWORD': 'ZYaRnm6P0TcliugWglmy32DzGUemZmhj',
+#         'HOST': 'dpg-cnnd44fjbltc738dquvg-a.oregon-postgres.render.com/end_to_end_db',
+#         'PORT': '',
+#     }
+# }
 
+DATABASES = {
+    'default': dj_database_url.parse('postgres://ohrmsdb_user:ZYaRnm6P0TcliugWglmy32DzGUemZmhj@dpg-cnnd44fjbltc738dquvg-a.oregon-postgres.render.com/end_to_end_db')
+   
+   
+}
 
 
 # Password validation
