@@ -204,28 +204,15 @@ def update(request, user_id):
 @api_view(['GET'])
 @authentication_classes([BasicAuthentication])
 @permission_classes([IsAuthenticated])
-def getuser(request, user_Id):
+def get_user(request, user_id):
     try:
-        user = CustomUser.objects.get(id=user_Id)
-        serializer = CustomUserSerializer(user)
-        data = {
-            'code': 1000,
-            'message': 'success',
-            'data': serializer.data
-        }
-        return Response(data)
-    except CustomUser.DoesNotExist:
-        error_data = {
-            'code': 404,
-            'message': 'User not found',
-        }
-        return Response(error_data, status=status.HTTP_404_NOT_FOUND)
-    except PermissionDenied:
-        error_data = {
-            'code': 403,
-            'message': 'Forbidden',
-        }
-        return Response(error_data, status=status.HTTP_403_FORBIDDEN)
+        user = User.objects.get(id=user_id)
+    except User.DoesNotExist:
+        return Response({'code': 404, 'message': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+    
+    serializer = CustomUserSerializer(user)
+    return Response({'code': 1000, 'message': 'success', 'data': serializer.data})
+
 
 @api_view(['DELETE'])
 @authentication_classes([BasicAuthentication])
@@ -244,4 +231,4 @@ def delete(request, user_id):
 
     user_to_delete = get_user  # Use the retrieved user object
     user_to_delete.delete()
-    return Response({'detail': 'User deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
+    return Response({'detail': 'User deleted successfully.'}) #status=status.HTTP_204_NO_CONTENT)
