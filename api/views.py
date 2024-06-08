@@ -238,11 +238,11 @@ def delete(request, user_id):
         req_user = CustomUser.objects.get(user=user)
         
         if req_user.role == 'User':
-            return Response({'detail': 'Sorry, this action is not allowed for you! It can only be done by the administrator.'}, status=status.HTTP_403_FORBIDDEN)
+            return Response({'code': 601, 'message': 'Sorry, this action is not allowed for you! It can only be done by the administrator.'}, status=status.HTTP_403_FORBIDDEN)
 
         user_to_delete = CustomUser.objects.get(id=user_id)
         if user.id == user_to_delete.user.id:
-            return Response({'detail': 'You cannot delete your own account.'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'code': 602, 'message': 'You cannot delete your own account.'}, status=status.HTTP_400_BAD_REQUEST)
 
         user_to_delete.delete()
         return Response({'code': 1000, 'message':'User deleted successfully.'}, status=status.HTTP_200_OK)
