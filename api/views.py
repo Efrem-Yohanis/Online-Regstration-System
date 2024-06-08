@@ -241,7 +241,7 @@ def delete(request, user_id):
             return Response({'detail': 'You cannot delete your own account.'}, status=status.HTTP_400_BAD_REQUEST)
 
         user_to_delete.delete()
-        return Response({'detail': 'User deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
+        return Response({'code': 1000, 'message':'User deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
     except CustomUser.DoesNotExist:
         return Response({'code': 404, 'message': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
     
