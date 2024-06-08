@@ -14,6 +14,10 @@ from rest_framework.authentication import BasicAuthentication
 from .mydecoretprs import require_fields,validate_fields
 import re
 
+from django.http import HttpResponse
+from django.views.decorators.http import require_http_methods
+
+
 @api_view(['GET'])
 @authentication_classes([BasicAuthentication])
 @permission_classes([IsAuthenticated])
@@ -241,14 +245,10 @@ def delete(request, user_id):
             return Response({'detail': 'You cannot delete your own account.'}, status=status.HTTP_400_BAD_REQUEST)
 
         user_to_delete.delete()
-        return Response({'code': 1000, 'message':'User deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
+        return Response({'code': 1000, 'message':'User deleted successfully.'}, status=status.HTTP_200_OK)
     except CustomUser.DoesNotExist:
         return Response({'code': 404, 'message': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
     
-
-from django.http import HttpResponse
-from django.views.decorators.http import require_http_methods
-
 
 @api_view(['PATCH', 'OPTIONS'])
 @authentication_classes([BasicAuthentication])
