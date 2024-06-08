@@ -98,7 +98,7 @@ DATABASES = {
 # }
 
 DATABASES = {
-    'default': dj_database_url.parse('postgres://ohrmsdb_user:ZYaRnm6P0TcliugWglmy32DzGUemZmhj@dpg-cnnd44fjbltc738dquvg-a/end_to_end_db')  
+    'default': dj_database_url.parse('postgres://ohrmsdb_user:ZYaRnm6P0TcliugWglmy32DzGUemZmhj@dpg-cnnd44fjbltc738dquvg-a.oregon-postgres.render.com/end_to_end_db')  
 }
 
 
