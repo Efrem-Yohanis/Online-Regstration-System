@@ -179,6 +179,8 @@ def update(request, user_id):
             'code': 404,
             'message': 'User not found.',
         }, status=404)
+    
+
 @api_view(['GET'])
 @authentication_classes([BasicAuthentication])
 @permission_classes([IsAuthenticated])

@@ -71,9 +71,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'end_to_end.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -86,24 +83,10 @@ DATABASES = {
 }
 
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'end_to_end_db',
-#         'USER': 'mydb',
-#         'PASSWORD': 'ZYaRnm6P0TcliugWglmy32DzGUemZmhj',
-#         'HOST': 'dpg-cnnd44fjbltc738dquvg-a.oregon-postgres.render.com/end_to_end_db',
-#         'PORT': '',
-#     }
-# }
-
 DATABASES = {
-    'default': dj_database_url.parse('postgres://ohrmsdb_user:ZYaRnm6P0TcliugWglmy32DzGUemZmhj@dpg-cnnd44fjbltc738dquvg-a.oregon-postgres.render.com/end_to_end_db')  
+    'default': dj_database_url.parse('postgres://ohrmsdb_user:UXi2XwZ5VkBiwyUVnEqd5mfPKbTwPWSt@dpg-cpiqlgkf7o1s73bl90og-a/end_to_end_db_c4fv')
 }
 
-
-# Password validation
-# https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
