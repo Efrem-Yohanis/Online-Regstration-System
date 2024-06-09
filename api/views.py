@@ -11,7 +11,7 @@ import datetime
 from .mydecoretprs import require_fields, validate_fields
 from django.db.models import Q
 from django.core.exceptions import PermissionDenied
-from .models import CustomUser
+from app1.models import CustomUser
 from django.http import HttpResponse
 from django.views.decorators.http import require_http_methods
 
