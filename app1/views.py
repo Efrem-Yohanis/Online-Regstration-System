@@ -7,6 +7,8 @@ from django.contrib.auth.decorators import login_required
 import re
 import datetime
 from datetime import datetime
+
+
 def login_view(request):
     if request.method == 'POST':
         username = request.POST['username']

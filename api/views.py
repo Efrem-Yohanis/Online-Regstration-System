@@ -14,7 +14,13 @@ from django.core.exceptions import PermissionDenied
 from app1.models import CustomUser
 from django.http import HttpResponse
 from django.views.decorators.http import require_http_methods
-
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.authentication import BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework import status
+from django.contrib.auth.models import User
+from .serializers import CustomUserSerializer
 
 @api_view(['GET'])
 @authentication_classes([BasicAuthentication])
@@ -26,11 +32,12 @@ def getalluser(request):
         role = request.GET.get('role', None)
 
         # Retrieve the users based on the optional parameters
-        users = User.objects.all()
+        users = CustomUser.objects.all()
         if first_name:
-           users = users.filter(first_name__icontains=first_name)
+            users = users.filter(first_name__icontains=first_name)
         if role:
-           users = users.filter(role=role)
+            users = users.filter(role=role)
+
         # Serialize the filtered data
         serializer = CustomUserSerializer(users, many=True)
         data = {
@@ -38,14 +45,14 @@ def getalluser(request):
             'message': 'success',
             'data': serializer.data
         }
-        return Response(data)
-    except PermissionDenied:
+        return Response(data, status=status.HTTP_200_OK)
+    except Exception as e:
         error_data = {
-            'code': 403,
-            'message': 'Forbidden',
+            'code': status.HTTP_403_FORBIDDEN,
+            'message': str(e),
         }
         return Response(error_data, status=status.HTTP_403_FORBIDDEN)
-
+    
 @api_view(['POST'])
 @authentication_classes([BasicAuthentication])
 @permission_classes([IsAuthenticated])
