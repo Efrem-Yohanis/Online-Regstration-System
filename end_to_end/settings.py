@@ -71,16 +71,16 @@ TEMPLATES = [
 WSGI_APPLICATION = 'end_to_end.wsgi.application'
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'OHRMS',
-        'USER': 'postgres',
-        'PASSWORD': 'a/ur14623/10',
-        'HOST': 'localhost',  # If running on localhost, use 'localhost' or '127.0.0.1'
-        'PORT': '5432',  # Use the default PostgreSQL port (5432) unless you've configured a different one
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'OHRMS',
+#         'USER': 'postgres',
+#         'PASSWORD': 'a/ur14623/10',
+#         'HOST': 'localhost',  # If running on localhost, use 'localhost' or '127.0.0.1'
+#         'PORT': '5432',  # Use the default PostgreSQL port (5432) unless you've configured a different one
+#     }
+# }
 
 
 DATABASES = {
