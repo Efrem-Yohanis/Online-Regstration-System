@@ -23,7 +23,20 @@ from django.views.decorators.http import require_http_methods
 @permission_classes([IsAuthenticated])
 def getalluser(request):
     try:
+        # Get the query parameters
+        search_query = request.query_params.get('firstname', '')
+        role = request.query_params.get('role', None)
+
+        # Filter the users based on the query parameters
         all_data = CustomUser.objects.all()
+        if search_query:
+            all_data = all_data.filter(
+                Q(first_name__icontains=search_query)
+            )
+        if role:
+            all_data = all_data.filter(role__name__icontains=role)
+
+        # Serialize the filtered data
         serializer = CustomUserSerializer(all_data, many=True)
         data = {
             'code': 1000,
@@ -37,7 +50,6 @@ def getalluser(request):
             'message': 'Forbidden',
         }
         return Response(error_data, status=status.HTTP_403_FORBIDDEN)
-
 
 @api_view(['POST'])
 @authentication_classes([BasicAuthentication])
