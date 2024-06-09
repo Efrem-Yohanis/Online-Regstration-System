@@ -21,21 +21,18 @@ from django.views.decorators.http import require_http_methods
 @permission_classes([IsAuthenticated])
 def getalluser(request):
     try:
-        # Get the query parameters
-        search_query = request.query_params.get('firstname', '')
-        role = request.query_params.get('role', None)
+        # Get the optional query parameters
+        first_name = request.GET.get('first_name', None)
+        role = request.GET.get('role', None)
 
-        # Filter the users based on the query parameters
-        all_data = CustomUser.objects.all()
-        if search_query:
-            all_data = all_data.filter(
-                Q(first_name__icontains=search_query)
-            )
+        # Retrieve the users based on the optional parameters
+        users = User.objects.all()
+        if first_name:
+           users = users.filter(first_name__icontains=first_name)
         if role:
-            all_data = all_data.filter(role__name__icontains=role)
-
+           users = users.filter(role=role)
         # Serialize the filtered data
-        serializer = CustomUserSerializer(all_data, many=True)
+        serializer = CustomUserSerializer(users, many=True)
         data = {
             'code': 1000,
             'message': 'success',
