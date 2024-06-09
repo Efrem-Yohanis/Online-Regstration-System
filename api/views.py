@@ -8,12 +8,10 @@ from app1.models import *
 from rest_framework.exceptions import PermissionDenied
 from .serializers import CustomUserSerializer
 import datetime
-from rest_framework.decorators import api_view, authentication_classes, permission_classes
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.authentication import BasicAuthentication
-from .mydecoretprs import require_fields,validate_fields
-import re
-
+from .mydecoretprs import require_fields, validate_fields
+from django.db.models import Q
+from django.core.exceptions import PermissionDenied
+from .models import CustomUser
 from django.http import HttpResponse
 from django.views.decorators.http import require_http_methods
 
