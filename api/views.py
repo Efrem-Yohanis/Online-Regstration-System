@@ -22,6 +22,12 @@ from rest_framework import status
 from django.contrib.auth.models import User
 from .serializers import CustomUserSerializer
 
+class CustomAuthenticationError(APIException):
+    status_code = 401
+    default_detail = {'code': 401, 'message': 'Not authorized user issue'}
+    default_code = 'authentication_error'
+
+
 @api_view(['GET'])
 @authentication_classes([BasicAuthentication])
 @permission_classes([IsAuthenticated])
@@ -46,13 +52,34 @@ def getalluser(request):
             'data': serializer.data
         }
         return Response(data, status=status.HTTP_200_OK)
+    except Http404:
+        error_data = {
+            'code': status.HTTP_404_NOT_FOUND,
+            'message': f'The requested endpoint "{request.path}" does not exist.',
+        }
+        return Response(error_data, status=status.HTTP_404_NOT_FOUND)
+    except CustomAuthenticationError as e:
+        return Response(e.default_detail, status=e.status_code)
+    except ValueError as e:
+        error_data = {
+            'code': status.HTTP_400_BAD_REQUEST,
+            'message': 'Invalid request parameters.',
+        }
+        return Response(error_data, status=status.HTTP_400_BAD_REQUEST)
+    except TypeError as e:
+        error_data = {
+            'code': status.HTTP_400_BAD_REQUEST,
+            'message': 'Incorrect data type in the request.',
+        }
+        return Response(error_data, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
         error_data = {
-            'code': status.HTTP_403_FORBIDDEN,
-            'message': str(e),
+            'code': status.HTTP_500_INTERNAL_SERVER_ERROR,
+            'message': 'An unexpected error occurred while processing the request.',
         }
-        return Response(error_data, status=status.HTTP_403_FORBIDDEN)
-    
+        return Response(error_data, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
 @api_view(['POST'])
 @authentication_classes([BasicAuthentication])
 @permission_classes([IsAuthenticated])
