@@ -158,25 +158,30 @@ def registration(request):
 def update(request, user_id):
     user = CustomUser.objects.get(id=user_id)
     context = {'user': user}
-
+    
     if request.method == 'POST':
-        first_name = request.POST['first_name']
-        last_name = request.POST['last_name']
+        first_name = request.POST['firstname']
+        last_name = request.POST['lastname']
         username = request.POST['username']
         email = request.POST['email']
         phone = request.POST['phone']
         address = request.POST['address']
         role = request.POST['role']
-        date_of_birth = request.POST['date_of_birth']
+        
 
         if not first_name.isalpha():
             messages.error(request, 'First name can only contain letters.')
+            return redirect('update', user.id)
         elif not last_name.isalpha():
             messages.error(request, 'Last name can only contain letters.')
+            return redirect('update', user.id)
         elif not username.isalpha():
             messages.error(request, 'Username can only contain letters.')
-        elif not re.match(r'^\(\d{3}\)\s\d{3}-\d{4}$', phone):
-            messages.error(request, 'Phone number must be in the format: (123) 456-7890.')
+            return redirect('update', user.id)
+        elif not re.match(r'^\+[0-9]{1,3}\s?[0-9]{9,15}$', phone):
+            messages.error(request, 'Phone number should be in the format +1234567890')
+            return redirect('update', user.id)
+       
         else:
             user.first_name = first_name
             user.last_name = last_name
@@ -186,21 +191,26 @@ def update(request, user_id):
             user.address = address
             user.role = role
 
-            birth_date = datetime.datetime.strptime(date_of_birth, "%Y-%m-%d").date()
-            today = datetime.date.today()
-            age = today.year - birth_date.year - ((today.month, today.day) < (birth_date.month, birth_date.day))
-
+            # Convert the date_of_birth string to a datetime object
+            # dob = datetime.strptime(date_of_birth, '%Y-%m-%d')
+            date_string = request.POST.get('date_of_birth')
+            dob = datetime.strptime(date_string, '%Y-%m-%d')
+            # Calculate the age based on the current date
+            today = datetime.today()
+            age = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
+            
+            # Check if the age is less than 20 years
             if age < 20:
                 messages.error(request, 'Age must be above 20 years.')
+                return redirect('update', user.id)
             else:
-                user.date_of_birth = date_of_birth
+
                 user.save()
-                messages.success(request, 'User information updated successfully.')
+                messages.error(request, 'user info update succssfuly')
                 return redirect('home')
 
+
     return render(request, 'update.html', context)
-
-
 @login_required
 def view_detail(request,user_id):
     user=CustomUser.objects.get(id=user_id)
