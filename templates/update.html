@@ -7,6 +7,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'update.css' %}">
     <title>Update User</title>
+    <style>
+      .my-list {
+        list-style-type: none;
+        padding: 0;
+      }
+      
+      .my-list li {
+        margin-bottom: 10px;
+        padding: 5px;
+        background-color: lightgray;
+        text-align: center;
+      }
+    </style>
 </head>
 
 <body>
@@ -22,19 +35,30 @@
 
     <main>
         <section class="register-form">
+
+          {% if messages %}
+          <ul class="my-list">
+            {% for message in messages %}
+            <li {% if message.tags %} class="my-list li"{% endif %}>{{message}}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
             <h2>Update User Form</h2>
          
             <form action="" method="POST">
               {% csrf_token %}
               <div >
                 <label for="username">First Name:</label>
-                <input class="form-element" type="text" id="username" name="first_name" value="{{user.first_name}}" required>
+                <input class="form-element" type="text" id="firstname" name="firstname" value="{{user.first_name}}" required>
               </div>
               <div >
                 <label for="username">Last Name:</label>
-                <input class="form-element" type="text" id="username" name="last_name" value="{{user.last_name}}" required>
+                <input class="form-element" type="text" id="lastname" name="lastname" value="{{user.last_name}}" required>
               </div>
-            
+              <div >
+                <label for="username">Uesrname:</label>
+                <input class="form-element" type="text" id="username" name="username" value="{{user.username}}" required>
+              </div>
               <div >
                 <label for="email">Email:</label>
                 <input class="form-element" type="email" id="email" name="email" value="{{user.email}}" required>
@@ -44,29 +68,30 @@
                 <input class="form-element" type="tel" id="phone" name="phone" value="{{user.phone}}" required>
               </div>
               
-              <div >
-                
+              <div>
                 <label for="date_of_birth">Date of Birth:</label>
-                <input class="form-element" type="date" id="date_of_birth" name="date_of_birth" value="{{user.date_of_birth}}" required>
-              
+                <input class="form-element" type="date" id="date_of_birth" name="date_of_birth" value="{% if user.date_of_birth %}{{ user.date_of_birth|date:'Y-m-d' }}{% endif %}" required>
               </div>
+
               <div >
                 <label for="address">Address:</label>
-                <textarea class="form-element" id="address" name="address" value="{{user.address}}"  required></textarea>
+               
+                <textarea class="form-element" id="address" name="address" required>{{user.address}}</textarea>
             </div>
              
               <div >
                 <label for="role">Role:</label>
-                <select class="form-element" id="role" name="role" value="{{user.role}}" required>
+                <select class="form-element" id="role" name="role" required>
                   <option value="">Select Role</option>
-                  <option value="Administrator">Administrator</option>
-                  <option value="User">User</option>
+                  <option value="Administrator" {% if user.role == 'Administrator' %}selected{% endif %}>Administrator</option>
+                  <option value="User" {% if user.role == 'User' %}selected{% endif %}>User</option>
                 </select>
               </div>
               <div >
-                <input type="submit" value="Register">
+                <input type="submit" value="Update">
               </div>
             </form>
+             
           </section>
     </main>
 
