@@ -84,8 +84,9 @@ WSGI_APPLICATION = 'end_to_end.wsgi.application'
 
 
 DATABASES = {
-    'default': dj_database_url.parse('postgresql://ohrmsdb_user:u27teZz4aspDBWeVfAxa2fyvNPAUf18b@dpg-cqdpo3ogph6c73aatbs0-a/end_to_end_db_vkl8')
+    'default': dj_database_url.parse('postgresql://end_end_db_user:yBzwv7gjQVqe8JjTN1yWQjpW4M59JfYZ@dpg-cstpp8l6l47c73fmk2f0-a/end_end_db')
 }
+
 
 
 AUTH_PASSWORD_VALIDATORS = [
