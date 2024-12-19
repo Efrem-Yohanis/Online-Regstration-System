@@ -84,7 +84,7 @@ WSGI_APPLICATION = 'end_to_end.wsgi.application'
 
 
 DATABASES = {
-    'default': dj_database_url.parse('postgresql://end_end_db_user:yBzwv7gjQVqe8JjTN1yWQjpW4M59JfYZ@dpg-cstpp8l6l47c73fmk2f0-a/end_end_db')
+    'default': dj_database_url.parse('postgresql://end_end_db_h6g0_user:Pm9EorKagl5JLJ7mAyT4h5jccS7gp7pN@dpg-cti438i3esus73bep4lg-a/end_end_db_h6g0')
 }
 
 
